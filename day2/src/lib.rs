@@ -57,10 +57,12 @@ pub fn intcode(codes: &mut Vec<i32>) -> bool {
         let output = codes[cursor + 3] as usize;
 
         match opcode {
-            1 => { // Addition
+            1 => {
+                // Addition
                 codes[output] = codes[lhs] + codes[rhs];
             }
-            2 => { // Multiplication
+            2 => {
+                // Multiplication
                 codes[output] = codes[lhs] * codes[rhs];
             }
             99 => return true,
@@ -95,8 +97,8 @@ mod tests {
     #[test]
     fn it_handles_simple_multiplication() {
         // 2,3,0,3,99 becomes 2,3,0,6,99 (3 * 2 = 6).
-        let mut arr = vec![2,3,0,3,99];
-        let mut expected = vec![2,3,0,6,99];
+        let mut arr = vec![2, 3, 0, 3, 99];
+        let mut expected = vec![2, 3, 0, 6, 99];
         let result = intcode(&mut arr);
         assert_eq!(arr, expected);
         assert_eq!(result, true);
@@ -106,8 +108,8 @@ mod tests {
     #[test]
     fn it_handles_overflow_return() {
         // 2,4,4,5,99,0 becomes 2,4,4,5,99,9801 (99 * 99 = 9801).
-        let mut arr = vec![2,4,4,5,99,0];
-        let mut expected = vec![2,4,4,5,99,9801];
+        let mut arr = vec![2, 4, 4, 5, 99, 0];
+        let mut expected = vec![2, 4, 4, 5, 99, 9801];
         let result = intcode(&mut arr);
         assert_eq!(arr, expected);
         assert_eq!(result, true);
@@ -116,8 +118,8 @@ mod tests {
     #[test]
     fn it_handles_complex_operation() {
         // 1,1,1,4,99,5,6,0,99 becomes 30,1,1,4,2,5,6,0,99.
-        let mut arr = vec![1,1,1,4,99,5,6,0,99];
-        let mut expected = vec![30,1,1,4,2,5,6,0,99];
+        let mut arr = vec![1, 1, 1, 4, 99, 5, 6, 0, 99];
+        let mut expected = vec![30, 1, 1, 4, 2, 5, 6, 0, 99];
         let result = intcode(&mut arr);
         assert_eq!(arr, expected);
         assert_eq!(result, true);
